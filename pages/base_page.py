@@ -3,6 +3,9 @@ from selenium import webdriver
 from selenium.common.exceptions import NoAlertPresentException
 import math
 from .locators import BasePageLocators
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 class BasePage():
     def __init__(self, browser, url, timeout = 10):
