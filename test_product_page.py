@@ -1,9 +1,26 @@
 from .pages.product_page import ProductPage
+from .pages.basket_page import BasketPage
 import time
 from selenium import webdriver
 import pytest
 from .pages.locators import ProductPageLocators
 
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/"
+    page = BasketPage(browser, link)
+    page.open()
+    page.go_to_basket_page()
+    page.should_not_be_article_in_basket()
+    page.should_be_empty_basket_message()
+
+@pytest.mark.xfail(reason="negative test")
+def test_guest_see_product_in_basket_opened_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/"
+    page = BasketPage(browser, link)
+    page.open()
+    page.go_to_basket_page()
+    page.should_be_article_in_basket()
+    page.should_not_be_empty_basket_message()
 
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer1",
@@ -84,3 +101,4 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.add_article_to_cart()
     assert page.is_disappeared (*ProductPageLocators.SUCCESS_MESSAGE), \
         "A message about a successful article addition after some time is not disappeared"
+

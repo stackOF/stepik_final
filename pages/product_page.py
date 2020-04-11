@@ -23,10 +23,6 @@ class ProductPage(BasePage):
     def should_be_add_to_cart_button_on_product_page(self):
         assert self.is_element_present(*ProductPageLocators.ADD_TO_CART_BTN), "Add to cart button not found"
 
-    #def should_be_promo_in_link(self):
-        # проверка на наличие промо в url адресе
-     #   assert "?promo=newYear" in self.browser.current_url, "Not Exist 'promo' in current url"
-
     def should_be_article_name_on_product_page(self):
         assert self.is_element_present(*ProductPageLocators.ARTICLE_NAME), "Article name not found on page"
 
