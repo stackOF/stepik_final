@@ -1,9 +1,12 @@
 from .pages.product_page import ProductPage
 from .pages.basket_page import BasketPage
+from .pages.login_page import LoginPage
 import time
 from selenium import webdriver
 import pytest
 from .pages.locators import ProductPageLocators
+from .pages.locators import LoginPageLocators
+from random import randint
 
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/"
@@ -101,4 +104,31 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.add_article_to_cart()
     assert page.is_disappeared (*ProductPageLocators.SUCCESS_MESSAGE), \
         "A message about a successful article addition after some time is not disappeared"
+
+@pytest.mark.authorized_user
+class TestUserAddToBasketFromProductPage():
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/"
+        page = LoginPage(browser, link)
+        page.open()
+        page.go_to_login_page()
+
+        email = str(time.time()) + "@fakemail.org"
+        password = randint(000000000, 999999999)
+        page.register_new_user(email, password)
+        page.should_be_authorized_user()
+
+
+    def test_user_can_add_product_to_basket(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser, link)
+        page.open()
+
+    def test_user_cant_see_success_message(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser, link)
+        page.open()
+        assert page.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "A message about a successful article addition is present"
 
