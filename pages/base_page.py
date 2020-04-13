@@ -1,15 +1,15 @@
 from selenium.common.exceptions import NoSuchElementException
-from selenium import webdriver
 from selenium.common.exceptions import NoAlertPresentException
-import math
+from selenium.common.exceptions import TimeoutException
 from .locators import BasePageLocators
 from .locators import BasketPageLocators
-from selenium.common.exceptions import TimeoutException
+from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+import math
 
 class BasePage():
-    def __init__(self, browser, url, timeout = 10):
+    def __init__(self, browser, url, timeout = 4):
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
@@ -24,14 +24,14 @@ class BasePage():
             return False
         return True
 
-    def is_not_element_present(self, how, what, timeout=4):
+    def is_not_element_present(self, how, what, timeout=3):
         try:
             WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return True
         return False
 
-    def is_disappeared(self, how, what, timeout=4):
+    def is_disappeared(self, how, what, timeout=2):
         try:
             WebDriverWait(self.browser, timeout, 1, TimeoutException). \
                 until_not(EC.presence_of_element_located((how, what)))
@@ -55,7 +55,6 @@ class BasePage():
             print("No second alert presented")
 
     def go_to_login_page(self):
-        #link = self.browser.find_element(*BasePageLocators.LOGIN_LINK_INVALID)
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         link.click()
 
@@ -67,5 +66,5 @@ class BasePage():
         link.click()
 
     def should_be_authorized_user(self):
-        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
-                                                                     " probably unauthorised user"
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented, " \
+                                                                     "probably unauthorised user"

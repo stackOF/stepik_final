@@ -1,6 +1,6 @@
 from .base_page import BasePage
-from selenium.webdriver.common.by import By
 from .locators import BasketPageLocators
+from selenium.webdriver.common.by import By
 from selenium import webdriver
 import pytest
 

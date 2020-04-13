@@ -3,10 +3,14 @@ from selenium.webdriver.common.by import By
 class MainPageLocators():
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
 
+class AllPagesLocators():
+    MAINPAGELINK = "http://selenium1py.pythonanywhere.com/"
+    ARTICLELINK1 = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+    ARTICLELINK2 = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+
 class LoginPageLocators():
     LOGIN_FORM = (By.CSS_SELECTOR, "#login_form")
     REG_FORM = (By.CSS_SELECTOR, "#register_form")
-
     EMAIL = (By.CSS_SELECTOR, "#id_registration-email")
     PASSWORD = (By.CSS_SELECTOR, "#id_registration-password1")
     COFIRM_PASSWORD = (By.CSS_SELECTOR, "#id_registration-password2")
